@@ -70,6 +70,12 @@ public class WebDriverManager {
         return webDriver;
     }
 
+    public void destroy(WebDriver webDriver) {
+        if (webDriver != null) {
+            webDriver.quit();
+        }
+    }
+
     private URL getLocalServerURL() {
         try {
             return new URL("http://127.0.0.1:4723/wd/hub");
