@@ -3,9 +3,11 @@ package com.wixpress.automation.webdriver;
 import com.wixpress.automation.webdriver.binaries.WebDriverBinaryManager;
 import com.wixpress.automation.webdriver.capabilities.BrowserCapabilities;
 import com.wixpress.automation.webdriver.capabilities.PlatformCapabilities;
+import com.wixpress.automation.webdriver.config.WebDriverConfig;
 import com.wixpress.automation.webdriver.enums.WebDriverType;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -14,6 +16,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,7 +27,9 @@ public class WebDriverManager {
     public WebDriver create(WebDriverType webDriverType) {
         WebDriver webDriver;
 
-        WebDriverBinaryManager.install(webDriverType);
+        if (shouldUseBinaryManager()) {
+            WebDriverBinaryManager.install(webDriverType);
+        }
 
         switch (webDriverType) {
             case CHROME:
@@ -51,6 +57,16 @@ public class WebDriverManager {
                 throw new RuntimeException("Unsupported browser: " + webDriverType);
         }
 
+        if (!webDriverType.isMobile()) {
+            if (System.getProperty("os.name").contains("mac")) {
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                int width = (int) toolkit.getScreenSize().getWidth();
+                int height = (int) toolkit.getScreenSize().getHeight();
+
+                webDriver.manage().window().setSize(new Dimension(width, height));
+            }
+            webDriver.manage().window().maximize();
+        }
         return webDriver;
     }
 
@@ -62,8 +78,13 @@ public class WebDriverManager {
         }
     }
 
+    private boolean shouldUseBinaryManager() {
+        return WebDriverConfig.getInstance().shouldUseBinariesManagerLocally();
+    }
+
     private EdgeDriverService createEdgeDriverService() {
         EdgeDriverService edgeDriverService = new EdgeDriverService.Builder()
+                .usingDriverExecutable(new File(WebDriverConfig.getInstance().getEdgeWebDriverPath()))
                 .usingAnyFreePort()
                 .build();
 
