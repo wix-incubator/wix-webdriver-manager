@@ -5,5 +5,7 @@ public enum WebDriverType {
     FIREFOX,
     EXPLORER,
     EDGE,
-    SAFARI
+    SAFARI,
+    IOS,
+    ANDROID;
 }
