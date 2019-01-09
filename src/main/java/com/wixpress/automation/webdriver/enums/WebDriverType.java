@@ -1,4 +1,4 @@
-package com.wixpress.automation.webdriver;
+package com.wixpress.automation.webdriver.enums;
 
 public enum WebDriverType {
     CHROME,
