@@ -1,5 +1,6 @@
 package com.wixpress.automation.webdriver;
 
+import com.wixpress.automation.webdriver.binaries.WebDriverBinaryManager;
 import com.wixpress.automation.webdriver.capabilities.BrowserCapabilities;
 import com.wixpress.automation.webdriver.capabilities.PlatformCapabilities;
 import com.wixpress.automation.webdriver.enums.WebDriverType;
@@ -21,6 +22,8 @@ public class WebDriverManager {
 
     public WebDriver create(WebDriverType webDriverType) {
         WebDriver webDriver;
+
+        WebDriverBinaryManager.install(webDriverType);
 
         switch (webDriverType) {
             case CHROME:
