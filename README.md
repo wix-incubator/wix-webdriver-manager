@@ -156,4 +156,4 @@ What should WebDriver-Manager be able to do, but currently doesn't?
 
 ---
 ## License
-Copyright (c) 2017 Wix.com Ltd. All Rights Reserved. Use of this source code is governed by the MIT [License](LICENSE.md) 
+Copyright (c) 2019 Wix.com Ltd. All Rights Reserved. Use of this source code is governed by the MIT [License](LICENSE.md) 
