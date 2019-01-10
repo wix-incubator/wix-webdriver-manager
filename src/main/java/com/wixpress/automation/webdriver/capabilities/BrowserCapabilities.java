@@ -17,12 +17,13 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class BrowserCapabilities {
+
     private BrowserCapabilities() {
     }
 
     public static ChromeOptions getChromeOptions() {
-        ChromeOptions options = new ChromeOptions();
         final String language = WebDriverConfig.getInstance().getLanguageCode();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type", "start-maximized", "disable-popup-blocking", "disable-infobars");
         options.addArguments(String.format("--lang=%s", language));
 
@@ -41,7 +42,6 @@ public class BrowserCapabilities {
             chromeOptions.put("mobileEmulation", mobileEmulation);
             options.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         }
-
 
         if (WebDriverConfig.getInstance().isEnableWebDriverLogging()) {
             LoggingPreferences logPref = new LoggingPreferences();
