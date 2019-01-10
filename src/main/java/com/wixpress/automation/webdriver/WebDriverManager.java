@@ -1,73 +1,22 @@
 package com.wixpress.automation.webdriver;
 
-import com.wixpress.automation.webdriver.binaries.WebDriverBinaryManager;
-import com.wixpress.automation.webdriver.capabilities.BrowserCapabilities;
-import com.wixpress.automation.webdriver.capabilities.PlatformCapabilities;
 import com.wixpress.automation.webdriver.config.WebDriverConfig;
-import com.wixpress.automation.webdriver.enums.WebDriverType;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
-import org.openqa.selenium.Dimension;
+import com.wixpress.automation.webdriver.enums.RunOn;
+import com.wixpress.automation.webdriver.exceptions.WebDriverManagerException;
+import com.wixpress.automation.webdriver.factory.CloudWebDriverFactory;
+import com.wixpress.automation.webdriver.factory.LocalWebDriverFactory;
+import com.wixpress.automation.webdriver.factory.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeDriverService;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.safari.SafariDriver;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class WebDriverManager {
 
-    public WebDriver create(WebDriverType webDriverType) {
-        WebDriver webDriver;
 
-        if (shouldUseBinaryManager()) {
-            WebDriverBinaryManager.install(webDriverType);
-        }
+    public WebDriverManager(WebDriverConfig webDriverConfig) {
+        WebDriverConfig.apply(webDriverConfig);
+    }
 
-        switch (webDriverType) {
-            case CHROME:
-                webDriver = new ChromeDriver(BrowserCapabilities.getChromeOptions());
-                break;
-            case FIREFOX:
-                webDriver = new FirefoxDriver(BrowserCapabilities.getFirefoxOptions());
-                break;
-            case EXPLORER:
-                webDriver = new InternetExplorerDriver(BrowserCapabilities.getExplorerOptions());
-                break;
-            case EDGE:
-                webDriver = new EdgeDriver(createEdgeDriverService(), BrowserCapabilities.getEdgeOptions());
-                break;
-            case SAFARI:
-                webDriver = new SafariDriver(BrowserCapabilities.getSafariOptions());
-                break;
-            case IOS:
-                webDriver = new IOSDriver(getLocalServerURL(), PlatformCapabilities.iOSCapabilities());
-                break;
-            case ANDROID:
-                webDriver = new AndroidDriver(getLocalServerURL(), PlatformCapabilities.androidCapabilities());
-                break;
-            default:
-                throw new RuntimeException("Unsupported browser: " + webDriverType);
-        }
-
-        if (!webDriverType.isMobile()) {
-            if (System.getProperty("os.name").contains("mac")) {
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                int width = (int) toolkit.getScreenSize().getWidth();
-                int height = (int) toolkit.getScreenSize().getHeight();
-
-                webDriver.manage().window().setSize(new Dimension(width, height));
-            }
-            webDriver.manage().window().maximize();
-        }
-        return webDriver;
+    public WebDriver create() {
+        return createFactory().create();
     }
 
     public void destroy(WebDriver webDriver) {
@@ -76,31 +25,22 @@ public class WebDriverManager {
         }
     }
 
-    private URL getLocalServerURL() {
-        try {
-            return new URL("http://127.0.0.1:4723/wd/hub");
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Server URL instance was not created", e);
+    private WebDriverFactory createFactory() {
+        switch (runOn()) {
+            case LOCAL:
+                return new LocalWebDriverFactory();
+            case GRID:
+                throw new WebDriverManagerException("Not implemented yet");
+            case REMOTE:
+                throw new WebDriverManagerException("Not implemented yet");
+            case CLOUD:
+                return new CloudWebDriverFactory();
+            default:
+                throw new WebDriverManagerException("Failed to create web driver factory with type: " + runOn());
         }
     }
 
-    private boolean shouldUseBinaryManager() {
-        return WebDriverConfig.getInstance().shouldUseBinariesManagerLocally();
-    }
-
-    private EdgeDriverService createEdgeDriverService() {
-        EdgeDriverService edgeDriverService = new EdgeDriverService.Builder()
-                .usingDriverExecutable(new File(WebDriverConfig.getInstance().getEdgeWebDriverPath()))
-                .usingAnyFreePort()
-                .build();
-
-        try {
-            edgeDriverService.start();
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Failed to start Edge Driver Service with error: %s",
-                    e.getMessage()));
-        }
-
-        return edgeDriverService;
+    private RunOn runOn() {
+        return RunOn.fromString(WebDriverConfig.getInstance().getRunOn());
     }
 }
