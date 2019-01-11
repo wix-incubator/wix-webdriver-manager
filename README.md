@@ -48,13 +48,13 @@ A simple yet powerful toolkit for managing Selenium automated browsers.
 
     // Create instance of config and fill it with required parameters
     WebDriverConfig config = new WebDrvierConfig.WebdriverConfigBuilder()
-                                .withWebDriverType("firefox")
+                                .withWebDriverType(WebDriverType.FIREFOX)
                                 .withFirefoxVersion("55.0.4")
                                 .withPlatform("Windows")
                                 .withwithScreenResolution("1280x1024")
-                                .withCloudService("sauce_labs")
-                                .withCloudUserName(SL_USER_NAME)
-                                .withCloudUserPass(SL_USER_KEY)
+                                .withCloudService(CloudService.SAUCE_LABS)
+                                .withCloudUserName("your_user_name")
+                                .withCloudUserPass("your_user_password")
                                 .build();
 
     // Create an instance of WebDriverManager
@@ -75,7 +75,7 @@ A simple yet powerful toolkit for managing Selenium automated browsers.
 
     // Create instance of config and fill it with required parameters
     WebDriverConfig config = new WebDrvierConfig.WebdriverConfigBuilder()
-                                .withWebDriverType("iOS")
+                                .withWebDriverType(WebDriverType.IOS)
                                 .withIOSPlatformVersion("11.2")
                                 .withIOSDeviceName("iPhone 8")
                                 .withMobileApplicationPath("/Users/username/Projects/MyApp/mycoolapplication.app")
