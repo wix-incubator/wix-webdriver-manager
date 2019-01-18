@@ -1,5 +1,7 @@
 package com.wixpress.automation.webdriver.config;
 
+import org.apache.commons.lang.StringUtils;
+
 public class WebDriverConfig {
 
     private static WebDriverConfig INSTANCE;
@@ -64,7 +66,7 @@ public class WebDriverConfig {
             return this;
         }
 
-        public WebDriverConfigBuilder withBuildNumber(Boolean shouldUseBinariesManagerLocally) {
+        public WebDriverConfigBuilder withBinariesManager(Boolean shouldUseBinariesManagerLocally) {
             webDriverConfig.shouldUseBinariesManagerLocally = shouldUseBinariesManagerLocally;
             return this;
         }
@@ -365,16 +367,10 @@ public class WebDriverConfig {
     }
 
     private String getValueOrDefault(String value, String defaultValue) {
-        if (value == null || value.isEmpty())
-            return defaultValue;
-        else
-            return value;
+        return StringUtils.isEmpty(value) ? defaultValue : value;
     }
 
     private Boolean getValueOrDefault(Boolean value, Boolean defaultValue) {
-        if (value == null)
-            return defaultValue;
-        else
-            return value;
+        return value == null ? defaultValue : value;
     }
 }
