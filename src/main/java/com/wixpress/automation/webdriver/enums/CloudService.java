@@ -1,20 +1,30 @@
 package com.wixpress.automation.webdriver.enums;
 
+import com.google.common.base.Enums;
+
 public enum CloudService {
+    /**
+     * 'Unknown' value - to determine illegal strategy type
+     */
+    UNKNOWN,
+
+    /**
+     * To run tests on SauceLabs service
+     */
     SAUCE_LABS,
+
+    /**
+     * To run tests on BrowserStack service
+     */
     BROWSER_STACK;
 
     /**
-     * Returns cloud type according to given value
+     * Returns web driver strategy type according to given value
      *
      * @param cloudService raw value
-     * @return web driver strategy type
+     * @return cloud service type
      */
     public static CloudService fromString(String cloudService) {
-        try {
-            return valueOf(cloudService.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(String.format("cloud service '%s' is not supported", cloudService), e);
-        }
+        return Enums.getIfPresent(CloudService.class, cloudService.toUpperCase()).or(UNKNOWN);
     }
 }

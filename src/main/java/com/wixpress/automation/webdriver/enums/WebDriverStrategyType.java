@@ -1,5 +1,7 @@
 package com.wixpress.automation.webdriver.enums;
 
+import com.google.common.base.Enums;
+
 public enum WebDriverStrategyType {
     /**
      * 'Unknown' value - to determine illegal strategy type
@@ -23,10 +25,6 @@ public enum WebDriverStrategyType {
      * @return web driver strategy type
      */
     public static WebDriverStrategyType fromString(String value) {
-        try {
-            return valueOf(value.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return UNKNOWN;
-        }
+       return Enums.getIfPresent(WebDriverStrategyType.class, value.toString()).or(UNKNOWN);
     }
 }

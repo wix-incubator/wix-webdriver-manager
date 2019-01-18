@@ -1,6 +1,13 @@
 package com.wixpress.automation.webdriver.enums;
 
+import com.google.common.base.Enums;
+
 public enum RunOn {
+    /**
+     * 'Unknown' value - to determine illegal environment
+     */
+    UNKNOWN,
+
     /**
      * For running new web driver on local machine
      */
@@ -22,16 +29,12 @@ public enum RunOn {
     CLOUD;
 
     /**
-     * Returns run on option according to given value
+     * Returns web driver strategy type according to given value
      *
      * @param value raw value
-     * @return web driver strategy type
+     * @return run on type
      */
     public static RunOn fromString(String value) {
-        try {
-            return valueOf(value.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(String.format("Run option '%s' is not supported", value), e);
-        }
+        return Enums.getIfPresent(RunOn.class, value.toUpperCase()).or(UNKNOWN);
     }
 }
