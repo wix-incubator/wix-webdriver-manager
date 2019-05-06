@@ -1,7 +1,8 @@
 ---
 # Wix Webdriver Manager
 
-<img src="./webdriver_manager_logo.svg">
+![Alt text](./webdriver_manager_logo.svg)
+<img src="./webdriver_manager_logo.svg" />
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/wix-incubator/wix-webdriver-manager.svg?branch=master)](https://travis-ci.org/wix-incubator/wix-webdriver-manager)
