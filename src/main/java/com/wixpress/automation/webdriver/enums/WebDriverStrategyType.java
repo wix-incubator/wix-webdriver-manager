@@ -25,6 +25,6 @@ public enum WebDriverStrategyType {
      * @return web driver strategy type
      */
     public static WebDriverStrategyType fromString(String value) {
-       return Enums.getIfPresent(WebDriverStrategyType.class, value.toString()).or(UNKNOWN);
+       return Enums.getIfPresent(WebDriverStrategyType.class, value.toUpperCase()).or(UNKNOWN);
     }
 }

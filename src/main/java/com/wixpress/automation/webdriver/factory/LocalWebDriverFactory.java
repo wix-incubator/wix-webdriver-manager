@@ -66,7 +66,6 @@ public class LocalWebDriverFactory implements WebDriverFactory {
 
                 webDriver.manage().window().setSize(new Dimension(width, height));
             }
-            webDriver.manage().window().maximize();
         }
 
         return webDriver;
