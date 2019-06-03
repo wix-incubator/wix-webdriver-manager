@@ -8,8 +8,7 @@
 
 
 
-![Alt text](webdriver_manager_logo.svg)
-<img src="webdriver_manager_logo.svg"/>
+<img src="webdriver_manager_logo.svg" height="100"/>
 
 
 
