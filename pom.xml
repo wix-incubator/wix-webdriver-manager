@@ -11,7 +11,7 @@
 
     <groupId>com.wix</groupId>
     <artifactId>wix-webdriver-manager</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
 
     <name>Wix WebDriver Manager</name>
     <description>Module on creating any web-driver on any supported environment</description>
@@ -29,7 +29,7 @@
         <url>https://github.com/wix/wix-webdriver-manager</url>
         <connection>scm:git:git://github.com/wix/wix-webdriver-manager.git</connection>
         <developerConnection>scm:git:git@github.com:wix/wix-webdriver-manager.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.1.0</tag>
     </scm>
 
     <issueManagement>
