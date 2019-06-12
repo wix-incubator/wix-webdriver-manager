@@ -28,7 +28,7 @@ A simple yet powerful toolkit for managing Selenium automated browsers.
 
 ```xml
 <dependency>
-    <groupId>com.wixpress.automation</groupId>
+    <groupId>com.wix</groupId>
     <artifactId>wix-webdriver-manager</artifactId>
     <version>1.0.0</version>
 </dependency>
